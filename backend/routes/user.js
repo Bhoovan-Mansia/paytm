@@ -129,12 +129,23 @@ userRouter.get("/bulk", UserAuthMiddleware, async (req, res) => {
 		return {
 			firstName: user.firstName,
 			lastName: user.lastName,
-			_id: user._id,
+			id: user._id,
 		};
 	});
 
 	return res.status(200).json({
 		users: userList,
+	});
+});
+
+userRouter.get("/me", UserAuthMiddleware, async (req, res) => {
+	const user = await User.findById(req.userId);
+	return res.status(200).json({
+		status: true,
+		firstName: user.firstName,
+		lastName: user.lastName,
+		username: user.username,
+		id: user._id,
 	});
 });
 

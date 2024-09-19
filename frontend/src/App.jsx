@@ -1,8 +1,9 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Signup from "./pages/Signup";
-import Signin from "./pages/Signin";
+import Signup from "./pages/SignUp";
+import Signin from "./pages/SignIn";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import SendMoney from "./pages/SendMoney";
 
 function App() {
 	return (
@@ -21,9 +22,17 @@ function App() {
 					<Route 
 						path="/Dashboard" 
 						element={
-							// <ProtectedRoute>
+							<ProtectedRoute>
 								<Dashboard /> 
-							// </ProtectedRoute>
+							</ProtectedRoute>
+						} 
+					/>
+					<Route 
+						path="/SendMoney" 
+						element={
+							<ProtectedRoute>
+								<SendMoney /> 
+							</ProtectedRoute>
 						} 
 					/>
 				</Routes>

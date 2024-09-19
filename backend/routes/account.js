@@ -20,7 +20,8 @@ accountRouter.post("/transfer", UserAuthMiddleware, async (req, res) => {
 	const session = await mongoose.startSession();
 	session.startTransaction();
 	try {
-		const { to, amount } = req.body;
+		const { to, amountVal } = req.body;
+		const amount = parseInt(amountVal);
 		const { error } = accountTransferZod.safeParse({ to, amount });
 		if (error) {
 			await session.abortTransaction();
@@ -56,6 +57,7 @@ accountRouter.post("/transfer", UserAuthMiddleware, async (req, res) => {
 		return res.status(200).json({
 			message: "Transfer successful",
 		});
+		
 	} catch (error) {
 		await session.abortTransaction();
 		session.endSession();

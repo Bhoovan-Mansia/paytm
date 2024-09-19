@@ -9,6 +9,7 @@ const ProtectedRoute = ({ children }) => {
    }
 
    if (!isAuthenticated) {
+      localStorage.removeItem("token");
       return <Navigate to="/signin" replace />;
    }
 

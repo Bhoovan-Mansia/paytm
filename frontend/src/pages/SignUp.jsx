@@ -3,7 +3,9 @@ import SubHeading from "../components/SubHeading"
 import InputBox from "../components/InputBox"
 import Button from "../components/Button"
 import BottomWarning from "../components/BottomWarning"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import axios from "axios"
+import { SignUpPath } from "../utils/ApiCalls"
 
 function SignUp(){
   const [firstName, setfirstName] = useState("");
@@ -11,11 +13,31 @@ function SignUp(){
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const submitHandler = () => {
+  useEffect(() => {
+    localStorage.removeItem("token");
+  }, [])
+
+  const submitHandler = async () => {
     console.log(firstName, lastName, email, password);
 
     // API call to create a new user
+    const body = {
+      firstName : firstName,
+      lastName : lastName,
+      username : email,
+      password : password
+    }
+
+    const headers = {
+      'Content-Type': 'application/json'
+    }
+
+    const result =  await axios.post(SignUpPath, body, {headers});
+    console.log(result.data);
+    alert("User created successfully");
+
     // If successful, redirect to sign in page
+    navigate("/SignIn");
   }
 
   return (

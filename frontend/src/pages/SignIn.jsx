@@ -3,20 +3,37 @@ import SubHeading from "../components/SubHeading"
 import InputBox from "../components/InputBox"
 import Button from "../components/Button"
 import BottomWarning from "../components/BottomWarning"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
+import { useNavigate } from "react-router-dom";
+import { SignInPath } from "../utils/ApiCalls"
 
 function SignIn(){
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.removeItem("token");
+  }, [])
 
   const submitHandler = async () => {
     console.log(email, password);
 
-    // API call to sign in
-    // const result =  await axios.post("",{body}, {headers});
-    // Store the token in local storage
+    const body = {
+      username : email,
+      password : password
+    }
+
+    const headers = {
+      'Content-Type': 'application/json'
+    }
+
+    const result =  await axios.post(SignInPath, body, {headers});
+    localStorage.setItem("token", result.data.token);
+
     // Redirect to dashboard
+    navigate("/Dashboard");
   }
 
   return (
